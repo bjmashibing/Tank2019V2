@@ -2,9 +2,11 @@ package com.mashibing.tank;
 
 public class Main {
     public static void main(String[] args) {
-        TankFrame tf = new TankFrame();
 
-        tf.setVisible(true);
+
+        TankFrame.INSTANCE.setVisible(true);
+
+        new Thread(()->new Audio("audio/war1.wav").loop()).start();
 
         for (; ; ) {
             try {
@@ -13,7 +15,7 @@ public class Main {
                 e.printStackTrace();
             }
 
-            tf.repaint();
+            TankFrame.INSTANCE.repaint();
         }
     }
 }
