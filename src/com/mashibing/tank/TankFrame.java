@@ -41,7 +41,9 @@ public class TankFrame extends Frame {
         tanks = new ArrayList<>();
         explodes = new ArrayList<>();
 
-        for (int i = 0; i < 10; i++) {
+        int tankCount = Integer.parseInt(PropertyMgr.get("initTankCount"));
+
+        for (int i = 0; i < tankCount; i++) {
             tanks.add(new Tank(100 + 50 * i, 200, Dir.D, Group.BAD));
         }
     }
