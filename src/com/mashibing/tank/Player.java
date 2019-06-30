@@ -1,5 +1,10 @@
 package com.mashibing.tank;
 
+import com.mashibing.tank.strategy.DefaultFireStrategy;
+import com.mashibing.tank.strategy.FireStrategy;
+import com.mashibing.tank.strategy.FourDirFireStrategy;
+import com.mashibing.tank.strategy.LeftRightFireStrategy;
+
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
@@ -16,6 +21,25 @@ public class Player {
         this.x = x;
         this.y = y;
         this.dir = dir;
+        this.group = group;
+
+        //init fire strategy from config file
+        this.initFireStrategy();
+    }
+
+    public Dir getDir() {
+        return dir;
+    }
+
+    public void setDir(Dir dir) {
+        this.dir = dir;
+    }
+
+    public Group getGroup() {
+        return group;
+    }
+
+    public void setGroup(Group group) {
         this.group = group;
     }
 
@@ -152,13 +176,31 @@ public class Player {
         setMainDir();
     }
 
+    private FireStrategy strategy = null;
+
+    private void initFireStrategy() {
+
+        String className = PropertyMgr.get("tankFireStrategy");
+        try {
+            Class clazz = Class.forName("com.mashibing.tank.strategy." + className);
+            strategy = (FireStrategy)(clazz.getDeclaredConstructor().newInstance());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     private void fire() {
-        int bX = x + ResourceMgr.goodTankU.getWidth()/2 - ResourceMgr.bulletU.getWidth()/2;
-        int bY = y + ResourceMgr.goodTankU.getHeight()/2 - ResourceMgr.bulletU.getHeight()/2;
-        TankFrame.INSTANCE.add(new Bullet(bX, bY, dir, group));
+        //read config
+        //if default four dir two
+        //ClassLoader loader = Player.class.getClassLoader();
+
+
+        strategy.fire(this);
     }
 
     public void die() {
         this.setLive(false);
     }
 }
+
+//mashibing.com -> 菜鸟预习 -> 2019年面向对象 OO的核心
