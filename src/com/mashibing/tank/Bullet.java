@@ -2,13 +2,12 @@ package com.mashibing.tank;
 
 import java.awt.*;
 
-public class Bullet {
+public class Bullet extends AbstractGameObject {
     public static final int SPEED = 6;
     private int x, y;
     private Dir dir;
     private Group group;
     private boolean live = true;
-
 
     public Bullet(int x, int y, Dir dir, Group group) {
         this.x = x;

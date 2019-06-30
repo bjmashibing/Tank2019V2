@@ -2,7 +2,7 @@ package com.mashibing.tank;
 
 import java.awt.*;
 
-public class Wall {
+public class Wall extends AbstractGameObject {
     private int x, y, w, h;
 
     public Wall(int x, int y, int w, int h) {

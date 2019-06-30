@@ -13,9 +13,7 @@ public class TankFrame extends Frame {
     private Player myTank;
 
 
-    private List<Explode> explodes;
-    private List<Tank> tanks;
-    private List<Bullet> bullets;
+    List<AbstractGameObject> objects;
 
     public static final int GAME_WIDTH = 800, GAME_HEIGHT = 600;
 
@@ -26,10 +24,7 @@ public class TankFrame extends Frame {
         this.setSize(GAME_WIDTH, GAME_HEIGHT);
 
         this.addKeyListener(new TankKeyListener());
-
-
         initGameObjects();
-
 
     }
 
@@ -37,19 +32,19 @@ public class TankFrame extends Frame {
         myTank = new Player(100, 100, Dir.R, Group.GOOD);
 
 
-        bullets = new ArrayList<>();
-        tanks = new ArrayList<>();
-        explodes = new ArrayList<>();
+        objects = new ArrayList<>();
 
         int tankCount = Integer.parseInt(PropertyMgr.get("initTankCount"));
 
         for (int i = 0; i < tankCount; i++) {
-            tanks.add(new Tank(100 + 50 * i, 200, Dir.D, Group.BAD));
+            this.add(new Tank(100 + 50 * i, 200, Dir.D, Group.BAD));
         }
+
+        this.add(new Wall(300, 200, 400, 50));
     }
 
-    public void add(Bullet bullet) {
-        this.bullets.add(bullet);
+    public void add(AbstractGameObject go) {
+        objects.add(go);
     }
 
     @Override
@@ -57,13 +52,17 @@ public class TankFrame extends Frame {
 
         Color c = g.getColor();
         g.setColor(Color.WHITE);
-        g.drawString("bullets:" + bullets.size(), 10, 50);
+       /* g.drawString("bullets:" + bullets.size(), 10, 50);
         g.drawString("enemies:" + tanks.size(), 10, 70);
-        g.drawString("explodes:" + explodes.size(), 10, 90);
+        g.drawString("explodes:" + explodes.size(), 10, 90);*/
         g.setColor(c);
 
         myTank.paint(g);
-        for (int i = 0; i < tanks.size(); i++) {
+        for(int i=0; i<objects.size(); i++) {
+            objects.get(i).paint(g);
+        }
+
+        /*for (int i = 0; i < tanks.size(); i++) {
             if (!tanks.get(i).isLive()) {
                 tanks.remove(i);
             } else {
@@ -89,7 +88,7 @@ public class TankFrame extends Frame {
             } else {
                 explodes.get(i).paint(g);
             }
-        }
+        }*/
 
     }
 
@@ -109,9 +108,6 @@ public class TankFrame extends Frame {
         g.drawImage(offScreenImage, 0, 0, null);
     }
 
-    public void add(Explode explode) {
-        this.explodes.add(explode);
-    }
 
 
     private class TankKeyListener extends KeyAdapter {
