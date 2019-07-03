@@ -5,4 +5,5 @@ gameWidth=600
 gameHeight=480
 
 #tank fire strategy
-tankFireStrategy=LeftUpFireStrategy
+tankFireStrategy=FourDirFireStrategy
+colliders=BulletTankCollider,BulletWallCollider,TankWallCollider

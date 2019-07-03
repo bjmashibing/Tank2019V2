@@ -1,6 +1,7 @@
 package com.mashibing.tank;
 
 import java.awt.*;
+import java.util.BitSet;
 import java.util.Random;
 
 public class Tank extends AbstractGameObject {
@@ -14,6 +15,7 @@ public class Tank extends AbstractGameObject {
     private int width, height;
 
     private int oldX, oldY;
+    private Rectangle rect;
 
     public Tank(int x, int y, Dir dir, Group group) {
         this.x = x;
@@ -26,6 +28,8 @@ public class Tank extends AbstractGameObject {
 
         this.width = ResourceMgr.goodTankU.getWidth();
         this.height = ResourceMgr.goodTankU.getHeight();
+
+        this.rect = new Rectangle(x, y, width, height);
     }
 
     public Group getGroup() {
@@ -79,6 +83,9 @@ public class Tank extends AbstractGameObject {
                 break;
         }
         move();
+        //update rect
+        rect.x = x;
+        rect.y = y;
     }
 
     private void move() {
@@ -127,7 +134,7 @@ public class Tank extends AbstractGameObject {
         }
     }
 
-    private void back() {
+    public void back() {
         this.x = oldX;
         this.y = oldY;
     }
@@ -148,5 +155,9 @@ public class Tank extends AbstractGameObject {
         this.setLive(false);
 
         TankFrame.INSTANCE.add(new Explode(x, y));
+    }
+
+    public Rectangle getRect() {
+        return rect;
     }
 }
