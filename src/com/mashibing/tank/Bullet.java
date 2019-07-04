@@ -88,9 +88,7 @@ public class Bullet extends AbstractGameObject {
         boundsCheck();
     }
 
-    public void collidesWithTank(Tank tank) {
 
-    }
 
     public Rectangle getRect() {
         return rect;

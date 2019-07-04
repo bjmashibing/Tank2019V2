@@ -11,6 +11,6 @@ public class DefaultFireStrategy implements FireStrategy {
 //        Dir[] dirs = Dir.values();
 //
 //        for (Dir d : dirs)
-        TankFrame.INSTANCE.add(new Bullet(bX, bY, p.getDir(), p.getGroup()));
+        TankFrame.INSTANCE.getGm().add(new Bullet(bX, bY, p.getDir(), p.getGroup()));
     }
 }
