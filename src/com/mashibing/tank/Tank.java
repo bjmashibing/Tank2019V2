@@ -5,7 +5,7 @@ import java.util.BitSet;
 import java.util.Random;
 
 public class Tank extends AbstractGameObject {
-    public static final int SPEED = 5;
+    public static final int SPEED = 2;
     private int x, y;
     private Dir dir;
     private boolean bL, bU, bR, bD;
@@ -144,8 +144,8 @@ public class Tank extends AbstractGameObject {
     }
 
     private void fire() {
-        int bX = x + ResourceMgr.goodTankU.getWidth() / 2 - ResourceMgr.bulletU.getWidth() / 2;
-        int bY = y + ResourceMgr.goodTankU.getHeight() / 2 - ResourceMgr.bulletU.getHeight() / 2;
+        int bX = x + width / 2 - Bullet.W / 2;
+        int bY = y + height / 2 - Bullet.H / 2;
 
 
         TankFrame.INSTANCE.getGm().add(new Bullet(bX, bY, dir, group));

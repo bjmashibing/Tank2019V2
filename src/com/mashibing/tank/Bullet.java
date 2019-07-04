@@ -4,6 +4,9 @@ import java.awt.*;
 
 public class Bullet extends AbstractGameObject {
     public static final int SPEED = 6;
+    public static final int W = ResourceMgr.bulletU.getWidth();
+    public static final int H = ResourceMgr.bulletU.getHeight();
+
     private int x, y;
     private Dir dir;
 

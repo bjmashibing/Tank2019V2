@@ -3,10 +3,11 @@ package com.mashibing.tank;
 import com.mashibing.tank.chainofresponsibility.ColliderChain;
 
 import java.awt.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameModel {
+public class GameModel implements Serializable {
     private Player myTank;
 
 
@@ -47,12 +48,17 @@ public class GameModel {
         g.setColor(c);
 
         myTank.paint(g);
-        for(int i=0; i<objects.size(); i++) {
 
-            if(!objects.get(i).isLive()) {
-                objects.remove(i);
+        for(int i=0; i<objects.size(); i++) {
+            AbstractGameObject object = objects.get(i);
+            if(!object.isLive()) {
+                objects.remove(object);
                 break;
             }
+        }
+
+        for(int i=0; i<objects.size(); i++) {
+
 
             AbstractGameObject go1 = objects.get(i);
             for(int j=0; j<objects.size(); j++) {
