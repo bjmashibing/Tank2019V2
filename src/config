@@ -1,9 +1,9 @@
 #key-value pair
 #xml yaml
-initTankCount=5
+initTankCount=0
 gameWidth=600
 gameHeight=480
 
 #tank fire strategy
-tankFireStrategy=FourDirFireStrategy
+tankFireStrategy=DefaultFireStrategy
 colliders=BulletTankCollider,BulletWallCollider,TankWallCollider,TankTankCollider

@@ -1,8 +1,11 @@
 package com.mashibing.tank;
 
+import com.mashibing.tank.net.TankJoinMsg;
+
 import java.awt.*;
 import java.util.BitSet;
 import java.util.Random;
+import java.util.UUID;
 
 public class Tank extends AbstractGameObject {
     public static final int SPEED = 2;
@@ -14,6 +17,12 @@ public class Tank extends AbstractGameObject {
     private boolean live = true;
     private int width, height;
 
+    public UUID getId() {
+        return id;
+    }
+
+    private UUID id;
+
     private int oldX, oldY;
     private Rectangle rect;
 
@@ -22,6 +31,23 @@ public class Tank extends AbstractGameObject {
         this.y = y;
         this.dir = dir;
         this.group = group;
+
+        oldX = x;
+        oldY = y;
+
+        this.width = ResourceMgr.goodTankU.getWidth();
+        this.height = ResourceMgr.goodTankU.getHeight();
+
+        this.rect = new Rectangle(x, y, width, height);
+    }
+
+    public Tank(TankJoinMsg msg) {
+        this.x = msg.getX();
+        this.y = msg.getY();
+        this.dir = msg.getDir();
+        this.moving = msg.isMoving();
+        this.group = msg.getGroup();
+        this.id = msg.getId();
 
         oldX = x;
         oldY = y;
@@ -70,16 +96,16 @@ public class Tank extends AbstractGameObject {
 
         switch (dir) {
             case L:
-                g.drawImage(ResourceMgr.badTankL, x, y, null);
+                g.drawImage(this.group.equals(Group.BAD)? ResourceMgr.badTankL:ResourceMgr.goodTankL, x, y, null);
                 break;
             case U:
-                g.drawImage(ResourceMgr.badTankU, x, y, null);
+                g.drawImage(this.group.equals(Group.BAD)? ResourceMgr.badTankU:ResourceMgr.goodTankU, x, y, null);
                 break;
             case R:
-                g.drawImage(ResourceMgr.badTankR, x, y, null);
+                g.drawImage(this.group.equals(Group.BAD)? ResourceMgr.badTankR:ResourceMgr.goodTankR, x, y, null);
                 break;
             case D:
-                g.drawImage(ResourceMgr.badTankD, x, y, null);
+                g.drawImage(this.group.equals(Group.BAD)? ResourceMgr.badTankD:ResourceMgr.goodTankD, x, y, null);
                 break;
         }
         move();
