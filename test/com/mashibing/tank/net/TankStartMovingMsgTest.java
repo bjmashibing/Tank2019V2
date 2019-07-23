@@ -1,7 +1,5 @@
 package com.mashibing.tank.net;
 
-import com.mashibing.nettycodec.TankMsg;
-import com.mashibing.nettycodec.TankMsgDecoder;
 import com.mashibing.tank.Dir;
 import com.mashibing.tank.Group;
 import com.mashibing.tank.Player;
@@ -14,7 +12,7 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class TankJoinMsgTest {
+class TankStartMovingMsgTest {
 
     @Test
     void encode() {
@@ -22,31 +20,26 @@ class TankJoinMsgTest {
 
         ch.pipeline().addLast(new MsgEncoder());
 
-        Player p = new Player(50, 100, Dir.R, Group.BAD);
-        TankJoinMsg tjm = new TankJoinMsg(p);
+        TankStartMovingMsg msg = new TankStartMovingMsg(UUID.randomUUID(), 50, 100, Dir.D);
 
-        ch.writeOutbound(tjm);
+        ch.writeOutbound(msg);
 
         ByteBuf buf = ch.readOutbound();
         MsgType msgType = MsgType.values()[buf.readInt()];
         int length = buf.readInt();
 
+        UUID id = new UUID(buf.readLong(), buf.readLong());
         int x = buf.readInt();
         int y = buf.readInt();
         Dir dir = Dir.values()[buf.readInt()];
-        boolean moving = buf.readBoolean();
-        Group group = Group.values()[buf.readInt()];
-        UUID id = new UUID(buf.readLong(), buf.readLong());
 
-        assertEquals(MsgType.TankJoin, msgType);
-        assertEquals(33, length);
+
+        assertEquals(MsgType.TankStartMoving, msgType);
+        assertEquals(28, length);
 
         assertEquals(50, x);
         assertEquals(100, y);
-        assertEquals(Dir.R, dir);
-        assertFalse(moving);
-        assertEquals(Group.BAD, group);
-        assertEquals(p.getId(), id);
+        assertEquals(Dir.D, dir);
 
     }
 
@@ -59,26 +52,22 @@ class TankJoinMsgTest {
         UUID id = UUID.randomUUID();
 
         ByteBuf buf = Unpooled.buffer();
-        buf.writeInt(MsgType.TankJoin.ordinal());
-        buf.writeInt(33);
+        buf.writeInt(MsgType.TankStartMoving.ordinal());
+        buf.writeInt(28);
+        buf.writeLong(id.getMostSignificantBits());
+        buf.writeLong(id.getLeastSignificantBits());
         buf.writeInt(5);
         buf.writeInt(8);
         buf.writeInt(Dir.D.ordinal());
-        buf.writeBoolean(true);
-        buf.writeInt(Group.GOOD.ordinal());
-        buf.writeLong(id.getMostSignificantBits());
-        buf.writeLong(id.getLeastSignificantBits());
 
 
         ch.writeInbound(buf);
 
-        TankJoinMsg tm = ch.readInbound();
+        TankStartMovingMsg tm = ch.readInbound();
 
+        assertEquals(id, tm.getId());
         assertEquals(5, tm.getX());
         assertEquals(8, tm.getY());
         assertEquals(Dir.D, tm.getDir());
-        assertTrue(tm.isMoving());
-        assertEquals(Group.GOOD, tm.getGroup());
-        assertEquals(id, tm.getId());
     }
 }

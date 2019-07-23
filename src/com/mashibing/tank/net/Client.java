@@ -56,16 +56,16 @@ public class Client {
 
     }
 
-    public void send(TankJoinMsg msg) {
-        channel.writeAndFlush(msg);
-    }
-
     public void closeConnection() {
 
         channel.close();
     }
 
-    static class MyHandler extends SimpleChannelInboundHandler<TankJoinMsg> {
+    public void send(Msg msg) {
+        channel.writeAndFlush(msg);
+    }
+
+    static class MyHandler extends SimpleChannelInboundHandler<Msg> {
 
         @Override
         public void channelActive(ChannelHandlerContext ctx) throws Exception {
@@ -82,7 +82,7 @@ public class Client {
 
 
         @Override
-        protected void channelRead0(ChannelHandlerContext ctx, TankJoinMsg msg) throws Exception {
+        protected void channelRead0(ChannelHandlerContext ctx, Msg msg) throws Exception {
             System.out.println(msg);
             msg.handle();
         }

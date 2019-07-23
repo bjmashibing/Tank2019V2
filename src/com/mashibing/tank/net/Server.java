@@ -65,7 +65,7 @@ public class Server {
             //System.out.println(msg);
 
             /*TankMsg tm = (TankMsg)msg;*/
-            //ServerFrame.INSTANCE.updateClientMsg(msg.toString());
+            ServerFrame.INSTANCE.updateClientMsg(msg.toString());
 
             clients.writeAndFlush(msg);
 

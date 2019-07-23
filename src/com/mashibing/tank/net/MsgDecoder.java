@@ -9,17 +9,27 @@ import java.util.List;
 public class MsgDecoder extends ByteToMessageDecoder {
     @Override
     protected void decode(ChannelHandlerContext ctx, ByteBuf buf, List<Object> list) throws Exception {
-        if(buf.readableBytes() < 37) return;
+        if(buf.readableBytes() < 8) return;
 
+        buf.markReaderIndex();
+
+        MsgType msgType = MsgType.values()[buf.readInt()];
         int length = buf.readInt();
 
-        byte[] bytes = new byte[length];
+        if(buf.readableBytes() < length) {
+            buf.resetReaderIndex();
+            return;
+        }
 
+        byte[] bytes = new byte[length];
         buf.readBytes(bytes);
 
-        TankJoinMsg tjm = new TankJoinMsg();
-        tjm.parse(bytes);
+        Msg msg = null;
+        msg = (Msg)Class.forName("com.mashibing.tank.net." + msgType.toString() + "Msg")
+                .getDeclaredConstructor()
+                .newInstance();
 
-        list.add(tjm);
+        msg.parse(bytes);
+        list.add(msg);
     }
 }

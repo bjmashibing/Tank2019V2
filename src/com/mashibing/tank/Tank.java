@@ -8,7 +8,7 @@ import java.util.Random;
 import java.util.UUID;
 
 public class Tank extends AbstractGameObject {
-    public static final int SPEED = 2;
+    public static final int SPEED = 5;
     private int x, y;
     private Dir dir;
     private boolean bL, bU, bR, bD;
@@ -16,16 +16,10 @@ public class Tank extends AbstractGameObject {
     private Group group;
     private boolean live = true;
     private int width, height;
-
-    public UUID getId() {
-        return id;
-    }
-
     private UUID id;
-
     private int oldX, oldY;
     private Rectangle rect;
-
+    private Random r = new Random();
     public Tank(int x, int y, Dir dir, Group group) {
         this.x = x;
         this.y = y;
@@ -40,7 +34,6 @@ public class Tank extends AbstractGameObject {
 
         this.rect = new Rectangle(x, y, width, height);
     }
-
     public Tank(TankJoinMsg msg) {
         this.x = msg.getX();
         this.y = msg.getY();
@@ -56,6 +49,18 @@ public class Tank extends AbstractGameObject {
         this.height = ResourceMgr.goodTankU.getHeight();
 
         this.rect = new Rectangle(x, y, width, height);
+    }
+
+    public void setDir(Dir dir) {
+        this.dir = dir;
+    }
+
+    public void setMoving(boolean moving) {
+        this.moving = moving;
+    }
+
+    public UUID getId() {
+        return id;
     }
 
     public Group getGroup() {
@@ -141,13 +146,11 @@ public class Tank extends AbstractGameObject {
 
         boundsCheck();
 
-        randomDir();
+        //randomDir();
 
-        if (r.nextInt(100) > 90)
-            fire();
+//        if (r.nextInt(100) > 90)
+//            fire();
     }
-
-    private Random r = new Random();
 
     private void randomDir() {
         if (r.nextInt(100) > 90)

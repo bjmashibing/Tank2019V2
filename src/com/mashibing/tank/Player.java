@@ -1,5 +1,8 @@
 package com.mashibing.tank;
 
+import com.mashibing.tank.net.Client;
+import com.mashibing.tank.net.TankStartMovingMsg;
+import com.mashibing.tank.net.TankStopMsg;
 import com.mashibing.tank.strategy.FireStrategy;
 
 import java.awt.*;
@@ -127,10 +130,15 @@ public class Player extends AbstractGameObject {
     }
 
     private void setMainDir() {
-        //all dir keys are released , tank should be stop.
-        if (!bL && !bU && !bR && !bD)
-            moving = false;
 
+        boolean oldMoving = moving;
+
+        //all dir keys are released , tank should be stop.
+        if (!bL && !bU && !bR && !bD) {
+            moving = false;
+            //send stop msg
+            Client.INSTANCE.send(new TankStopMsg(this.id, this.x, this.y));
+        }
             //any dir key is pressed, tank should be moving.
         else {
             moving = true;
@@ -143,6 +151,10 @@ public class Player extends AbstractGameObject {
                 dir = Dir.R;
             if (!bL && !bU && !bR && bD)
                 dir = Dir.D;
+
+            //old status is not moving , now my tank will move immediate
+            if(!oldMoving)
+                Client.INSTANCE.send(new TankStartMovingMsg(this.id, this.x, this.y, this.dir));
         }
     }
 
