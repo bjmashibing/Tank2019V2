@@ -184,6 +184,8 @@ public class Tank extends AbstractGameObject {
         this.setLive(false);
 
         TankFrame.INSTANCE.getGm().add(new Explode(x, y));
+
+
     }
 
     public Rectangle getRect() {

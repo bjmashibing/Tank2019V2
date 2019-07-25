@@ -4,6 +4,8 @@ import com.mashibing.tank.AbstractGameObject;
 import com.mashibing.tank.Bullet;
 import com.mashibing.tank.ResourceMgr;
 import com.mashibing.tank.Tank;
+import com.mashibing.tank.net.Client;
+import com.mashibing.tank.net.TankDieMsg;
 
 import java.awt.*;
 
@@ -23,6 +25,9 @@ public class BulletTankCollider implements Collider {
             if(b.getRect().intersects(rectTank)) {
                 b.die();
                 t.die();
+
+                Client.INSTANCE.send(new TankDieMsg(t.getId(), b.getId()));
+
                 return false;
             }
         } else if(go1 instanceof Tank && go2 instanceof Bullet) {

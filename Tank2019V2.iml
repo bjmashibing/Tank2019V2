@@ -6,20 +6,9 @@
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/test" isTestSource="false" />
     </content>
-    <orderEntry type="inheritedJdk" />
+    <orderEntry type="jdk" jdkName="11" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="io.netty:netty-all:4.1.19.Final" level="project" />
-    <orderEntry type="module-library">
-      <library name="JUnit5.3">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib/junit-jupiter-api-5.5.1.jar!/" />
-          <root url="jar://$MODULE_DIR$/lib/apiguardian-api-1.1.0.jar!/" />
-          <root url="jar://$MODULE_DIR$/lib/opentest4j-1.2.0.jar!/" />
-          <root url="jar://$MODULE_DIR$/lib/junit-platform-commons-1.5.1.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
+    <orderEntry type="library" name="org.junit.jupiter:junit-jupiter-api:5.5.0" level="project" />
   </component>
 </module>

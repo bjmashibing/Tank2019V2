@@ -228,6 +228,7 @@ public class Player extends AbstractGameObject {
 
     public void die() {
         this.setLive(false);
+        TankFrame.INSTANCE.getGm().add(new Explode(x, y));
     }
 }
 
