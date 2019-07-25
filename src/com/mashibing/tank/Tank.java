@@ -177,7 +177,7 @@ public class Tank extends AbstractGameObject {
         int bY = y + height / 2 - Bullet.H / 2;
 
 
-        TankFrame.INSTANCE.getGm().add(new Bullet(bX, bY, dir, group));
+        TankFrame.INSTANCE.getGm().add(new Bullet(this.id, bX, bY, dir, group));
     }
 
     public void die() {

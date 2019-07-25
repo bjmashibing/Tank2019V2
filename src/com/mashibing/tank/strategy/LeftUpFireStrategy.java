@@ -11,7 +11,7 @@ public class LeftUpFireStrategy implements FireStrategy {
         Dir[] dirs = Dir.values();
 
 
-        TankFrame.INSTANCE.getGm().add(new Bullet(bX, bY, Dir.L, p.getGroup()));
-        TankFrame.INSTANCE.getGm().add(new Bullet(bX, bY, Dir.U, p.getGroup()));
+        TankFrame.INSTANCE.getGm().add(new Bullet(p.getId(), bX, bY, Dir.L, p.getGroup()));
+        TankFrame.INSTANCE.getGm().add(new Bullet(p.getId(), bX, bY, Dir.U, p.getGroup()));
     }
 }

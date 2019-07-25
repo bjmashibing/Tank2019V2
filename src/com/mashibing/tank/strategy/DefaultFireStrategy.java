@@ -1,6 +1,8 @@
 package com.mashibing.tank.strategy;
 
 import com.mashibing.tank.*;
+import com.mashibing.tank.net.BulletNewMsg;
+import com.mashibing.tank.net.Client;
 
 public class DefaultFireStrategy implements FireStrategy {
     @Override
@@ -11,6 +13,12 @@ public class DefaultFireStrategy implements FireStrategy {
 //        Dir[] dirs = Dir.values();
 //
 //        for (Dir d : dirs)
-        TankFrame.INSTANCE.getGm().add(new Bullet(bX, bY, p.getDir(), p.getGroup()));
+        Bullet b = new Bullet(p.getId(), bX, bY, p.getDir(), p.getGroup());
+        TankFrame.INSTANCE.getGm().add(b);
+
+        //send a bullet msg to server when a bullet is born.
+        Client.INSTANCE.send(new BulletNewMsg(b));
+
+
     }
 }

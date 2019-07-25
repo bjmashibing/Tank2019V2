@@ -1,6 +1,10 @@
 package com.mashibing.tank;
 
+import com.mashibing.tank.net.BulletNewMsg;
+import com.mashibing.tank.net.Client;
+
 import java.awt.*;
+import java.util.UUID;
 
 public class Bullet extends AbstractGameObject {
     public static final int SPEED = 6;
@@ -9,6 +13,37 @@ public class Bullet extends AbstractGameObject {
 
     private int x, y;
     private Dir dir;
+    private UUID id = UUID.randomUUID();
+    private UUID playerId;
+
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public Dir getDir() {
+        return dir;
+    }
+
+    public void setDir(Dir dir) {
+        this.dir = dir;
+    }
 
     public Group getGroup() {
         return group;
@@ -25,13 +60,16 @@ public class Bullet extends AbstractGameObject {
 
     private Rectangle rect;
 
-    public Bullet(int x, int y, Dir dir, Group group) {
+    public Bullet(UUID playerId, int x, int y, Dir dir, Group group) {
+        this.playerId = playerId;
         this.x = x;
         this.y = y;
         this.dir = dir;
         this.group = group;
 
         rect = new Rectangle(x, y, w, h);
+
+
     }
 
     public boolean isLive() {
@@ -119,5 +157,13 @@ public class Bullet extends AbstractGameObject {
                 ", h=" + h +
                 ", rect=" + rect +
                 '}';
+    }
+
+    public UUID getId() {
+        return this.id;
+    }
+
+    public UUID getPlayerId() {
+        return this.playerId;
     }
 }
